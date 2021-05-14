@@ -6,7 +6,7 @@ const ProductTag = require('./ProductTag');
 
 // Products belongsTo Category
 Product.belongsTo(Category,{
-  foreignKey: "id",
+  
 })
 
 // Categories have many Products
