@@ -91,6 +91,10 @@ router.put('/:id', (req, res) => {
     },
   })
     .then((product) => {
+      if(!product){
+        res.status(404).json("No products found with this id!");
+        return;
+      }
       // find all associated tags from ProductTag
       return ProductTag.findAll({ where: { product_id: req.params.id } });
     })

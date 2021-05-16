@@ -25,7 +25,8 @@ router.get('/:id', async (req, res) => {
       include: {model: Product}
     })
     if(!categoryData){
-      res.status(404).json("No category found with this id!")
+      res.status(404).json("No category found with this id!");
+      return;
     }
     res.status(200).json(categoryData);
   }catch(e){
@@ -56,6 +57,10 @@ router.put('/:id', async (req, res) => {
         id: req.params.id,
       }
     })
+    if(!categoryData){
+      res.status(404).json("No category found with this id!");
+      return;
+    }
     res.status(200).json(categoryData);
   }
   catch(err){
