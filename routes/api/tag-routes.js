@@ -27,6 +27,10 @@ router.get('/:id', async (req, res) => {
         model: Product,
       }
     })
+    if (!tagData){
+      res.status(404).json({message: 'No tag found with this id!'});
+      return;
+    }
     res.status(200).json(tagData);
   } catch(e){
     res.status(500).json(e);
@@ -70,6 +74,10 @@ router.put('/:id', (req, res) => {
     },
   })
     .then((tag) => {
+      if (!tag){
+        res.status(404).json({message: 'No tag found with this id!'});
+        return;
+      }
       return ProductTag.findAll({ where: { tag_id: req.params.id } });
     })
     .then((productTags) => {
@@ -99,6 +107,26 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
+  Tag.destroy( {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((tag) => {
+      // find all associated tags from ProductTag
+      if (!tag){
+        res.status(404).json({message: 'No tag found with this id!'});
+        return;
+      }
+      return ProductTag.destroy({ where: { tag_id: req.params.id } });
+    })
+    .then((productTags) => {
+      res.status(200).json("Successfully deleted!")
+    })
+    .catch((err) => {
+      // console.log(err);
+      res.status(400).json(err);
+    });
 });
 
 module.exports = router;
