@@ -15,6 +15,9 @@ router.get('/', async (req, res) => {
         }, 
         {
           model: Tag,
+          attributes:{
+            exclude:["product_tag"]
+          }
         }
       ]},
     );
